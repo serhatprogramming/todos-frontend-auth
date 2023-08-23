@@ -1,0 +1,18 @@
+.notification {
+  position: relative;
+  padding: 5px;
+  margin: 10px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.warning {
+  background-color: #f5a623;
+  color: white;
+}
+
+.info {
+  background-color: #4caf50;
+  color: white;
+}
