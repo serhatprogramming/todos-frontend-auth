@@ -5,6 +5,7 @@ import loginService from "./services/loginService";
 import Notification from "./components/Notification";
 import UserLoginForm from "./components/UserLoginForm";
 import NewTodoForm from "./components/NewTodoForm";
+import Section from "./components/Section";
 import "./App.css";
 
 const App = () => {
@@ -42,13 +43,12 @@ const App = () => {
     }
     setTimeout(() => {
       setNotification(null);
-    }, 10000);
+    }, 3000);
     setTask("");
   };
 
   const todoList = () => (
     <div>
-      <h3>Todo List</h3>
       {todos.map((todo) => (
         <Todo key={todo.id} todo={todo} />
       ))}
@@ -112,7 +112,7 @@ const App = () => {
           setPassword={setPassword}
         />
       )}
-      {todoList()}
+      <Section componentTitle="Todo List">{todoList()}</Section>
     </div>
   );
 };
