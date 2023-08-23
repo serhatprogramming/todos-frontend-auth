@@ -3,6 +3,8 @@ import Todo from "./components/Todo";
 import todoService from "./services/todos";
 import loginService from "./services/loginService";
 import Notification from "./components/Notification";
+import UserLoginForm from "./components/UserLoginForm";
+import NewTodoForm from "./components/NewTodoForm";
 import "./App.css";
 
 const App = () => {
@@ -27,43 +29,6 @@ const App = () => {
       setUserObj(JSON.parse(storedUserData));
     }
   }, []);
-
-  const userLoginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  );
-
-  const newTodoForm = () => (
-    <form onSubmit={handleNewTodo}>
-      <h3>Create a new todo</h3>
-      <div>
-        Task
-        <input
-          type="text"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-        />
-        <button type="submit">Add to the list</button>
-      </div>
-    </form>
-  );
 
   const handleNewTodo = async (event) => {
     event.preventDefault();
@@ -132,7 +97,21 @@ const App = () => {
       <Notification notification={notification} />
       <h2>Todo Application</h2>
       {userObj && greetingAndLogout()}
-      {userObj ? newTodoForm() : userLoginForm()}
+      {userObj ? (
+        <NewTodoForm
+          handleNewTodo={handleNewTodo}
+          task={task}
+          setTask={setTask}
+        />
+      ) : (
+        <UserLoginForm
+          handleLogin={handleLogin}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+        />
+      )}
       {todoList()}
     </div>
   );
