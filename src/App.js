@@ -1,5 +1,24 @@
+import { useState, useEffect } from "react";
+import Todo from "./components/Todo";
+import todoService from "./services/todos";
+
 const App = () => {
-  return <div>Hello World</div>;
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    todoService.getTodos().then((todos) => setTodos(todos));
+  }, []);
+
+  return (
+    <div>
+      <div>
+        <h2>todos</h2>
+        {todos.map((todo) => (
+          <Todo key={todo.id} todo={todo} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default App;
