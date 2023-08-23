@@ -1,7 +1,7 @@
 const Todo = ({ todo }) => {
   return (
     <div>
-      {todo.task}. done: {todo.done ? "yes" : "no"}
+      Task: {todo.task}. Completed? {todo.done ? "Yes" : "No"}
     </div>
   );
 };

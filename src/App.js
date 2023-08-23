@@ -20,6 +20,13 @@ const App = () => {
   useEffect(() => {
     todoService.getTodos().then((todos) => setTodos(todos));
   }, []);
+  // check userData in LS and update userObj accordingly
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserObj(JSON.parse(storedUserData));
+    }
+  }, []);
 
   const userLoginForm = () => (
     <form onSubmit={handleLogin}>
@@ -58,19 +65,19 @@ const App = () => {
     </form>
   );
 
-  const handleNewTodo = (event) => {
+  const handleNewTodo = async (event) => {
     event.preventDefault();
     try {
-      console.log("New Todo Added to the list: ", task);
       todoService.setAuthorization(userObj.token);
-      todoService.createNewTodo({ task, done: false });
+      const newTodo = await todoService.createNewTodo({ task, done: false });
+      setTodos([...todos, newTodo]);
       setNotification({ message: `${task} added to the list.`, type: "info" });
     } catch (error) {
       setNotification({ message: `Creation Failed`, type: "error" });
     }
     setTimeout(() => {
       setNotification(null);
-    }, 3000);
+    }, 10000);
     setTask("");
   };
 
@@ -92,7 +99,8 @@ const App = () => {
         password,
       }); // Attempt to log in by calling a login service with provided credentials
       setUserObj(user); // Set user object in the state
-      console.log("Login successful");
+      // Store user data in Local Storage
+      localStorage.setItem("userData", JSON.stringify(user));
     } catch (exception) {
       setNotification({
         message: "Invalid login credentials",
@@ -106,11 +114,24 @@ const App = () => {
     setPassword(""); // Clear the password input
   };
 
+  const handleLogout = () => {
+    // Clear userObj state and Local Storage
+    setUserObj(null); // Clear userObj state
+    localStorage.removeItem("userData"); // Remove userData from Local Storage
+  };
+
+  const greetingAndLogout = () => (
+    <>
+      <em>Howdy, {userObj.username}! </em>
+      <button onClick={handleLogout}>Log Out</button>
+    </>
+  );
+
   return (
     <div>
       <Notification notification={notification} />
       <h2>Todo Application</h2>
-      {userObj && <em>Howdy, {userObj.username}!</em>}
+      {userObj && greetingAndLogout()}
       {userObj ? newTodoForm() : userLoginForm()}
       {todoList()}
     </div>

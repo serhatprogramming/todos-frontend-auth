@@ -9,13 +9,13 @@ const setAuthorization = (token) => {
   };
 };
 
-const getTodos = async () => {
-  const response = await axios.get(API_URL);
+const createNewTodo = async (newTodoObject) => {
+  const response = await axios.post(API_URL, newTodoObject, authorization);
   return response.data;
 };
 
-const createNewTodo = async (newTodoObject) => {
-  const response = await axios.post(API_URL, newTodoObject, authorization);
+const getTodos = async () => {
+  const response = await axios.get(API_URL);
   return response.data;
 };
 
