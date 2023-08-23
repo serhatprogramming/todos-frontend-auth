@@ -12,7 +12,7 @@ const App = () => {
   return (
     <div>
       <div>
-        <h2>todos</h2>
+        <h3>Todo List</h3>
         {todos.map((todo) => (
           <Todo key={todo.id} todo={todo} />
         ))}
